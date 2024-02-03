@@ -4,17 +4,23 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-	<h1>Delete Post</h1>
-	<br/><br/>
-	<h3>Delete: {{ post.title }}</h3>
+	{% if user.id == post.author.id %}
+		<h1>Delete Post</h1>
+		<br/><br/>
+		<h3>Delete: {{ post.title }}</h3>
 
-	<div class="form-group">
-		<form method="POST">
-			{% csrf_token %}
-			<strong>Are you sure</strong><br/><br/>
-			<button class="btn btn-secondary">Delete</button>
-		</form>
-	</div>
+		<div class="form-group">
+			<form method="POST">
+				{% csrf_token %}
+				<strong>Are you sure</strong><br/><br/>
+				<button class="btn btn-secondary">Delete</button>
+			</form>
+		</div>
+
+	{% else%}
+		You're not allowed here
+
+	{% endif %}
 
 {% else %}
 You are not allowed here

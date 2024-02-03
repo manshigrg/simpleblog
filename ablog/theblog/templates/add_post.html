@@ -15,6 +15,11 @@
 		</form>
 	</div>
 
+	<script type="text/javascript">
+		var name = "{{ user.id }}";
+		document.getElementById('username').value = name;
+	</script>
+
 {% else %}
 You are not allowed here
 
