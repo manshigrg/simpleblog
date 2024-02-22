@@ -22,12 +22,6 @@
 		<p class="post-meta">Posted on - {{ post.post_date}}</p>
 	  	<hr class="my-4">
 	  	<p class="lead">{{ post.snippet }}</p>	
-	  	<!--{% if user.is_authenticated %}
-			{% if user.id == post.author.id %}
-			  	<a class="btn btn-primary btn-lg" href="{% url 'update_post' post.pk %}" role="button">Edit</a>
-			    <a class="btn btn-primary btn-lg" href="{% url 'delete_post' post.pk %}" role="button">Delete</a>
-			{% endif %}
-		{% endif %}-->
 	</div>	
 	{% endfor %}
 

@@ -5,17 +5,43 @@
 
 {% if user.is_authenticated %}
 	{% if user.id == post.author.id %}
-		<h1>Delete Post</h1>
-		<br/><br/>
-		<h3>Delete: {{ post.title }}</h3>
+		<style>
+			.form-group {
+	            max-width: 500px;
+	            margin: auto;
+	            padding: 20px;
+	            border: 1px solid #ddd;
+	            border-radius: 5px;
+	            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	        }
 
+			form {
+				width: 100%;
+				margin: auto;
+				padding: 20px;
+			}
+
+			.btn-danger {
+				float: right;
+	        }
+		</style>
+		
 		<div class="form-group">
+			<h4>Are you sure?</h4>
+
 			<form method="POST">
 				{% csrf_token %}
-				<strong>Are you sure</strong><br/><br/>
-				<button class="btn btn-secondary">Delete</button>
+				<div class="row">
+                    <div class="col-6">
+                        <h6>Delete: {{ post.title }}</h6>
+                    </div>
+                    <div class="col-6 text-right">
+                        <button class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
 			</form>
 		</div>
+		<br><br>
 
 	{% else%}
 		You're not allowed here

@@ -23,13 +23,14 @@
 	</style>
 	<div class="jumbotron jumbotron-sm">
 		<h1 class="display-4 smaller-heading"><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h1>
-	  	<p class="post-meta">Posted on - {{ post.post_date}}</p>
-	  	<!--{% if user.is_authenticated %}
+	  	<p class="post-meta">Posted on - {{ post.post_date}}
+	  	{% if user.is_authenticated %}
 			{% if user.id == post.author.id %}
-			  	<a class="btn btn-primary btn-sm" href="{% url 'update_post' post.pk %}" role="button">Edit</a>
-			    <a class="btn btn-danger btn-sm" href="{% url 'delete_post' post.pk %}" role="button">Delete</a>
+				<a href="{% url 'update_post' post.pk %}">(Edit)</a>
+				<a href="{% url 'delete_post' post.pk %}">(Delete)</a>
 			{% endif %}
-		{% endif %}-->
+		{% endif %}
+		</p>
 	  	
 	  	<form action="{% url 'like_post' post.pk %}" method="POST">
 			{% csrf_token %}
