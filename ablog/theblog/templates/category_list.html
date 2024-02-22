@@ -3,9 +3,16 @@
 
 {% block content %}
 
-	<h1>Blog Categories</h1>
-	{% for item in cat_menu_list %}
-    	<h4><a class="dropdown-item" href="{% url 'category' item %}">{{ item }}</a></h4>
-    {% endfor %}
+	<h4>Blog Categories</h4>
+	<br>
+	<table class="table">
+      <tbody>
+        {% for item in cat_menu_list %}
+          <tr>
+            <td><a href="{% url 'category' item %}">{{ item }}</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
 {% endblock %}
