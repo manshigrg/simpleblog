@@ -2,26 +2,36 @@
 
 {% block content %}
 
-<h1>Post</h1>
-
-<ul>
 	{% for post in object_list %}
-		<li>
-			<a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a> - <a href="{% url 'category' post.category %}">{{ post.category }}</a> - {{ post.author.first_name }} {{ post.author.last_name }} - {{ post.post_date}} 
-			<small>
+	<style>
+	  .jumbotron-sm {
+	    font-size: 14px;
+	  }
 
-			{% if user.is_authenticated %}
-				{% if user.id == post.author.id %}
-					- <a href="{% url 'update_post' post.pk %}">(Edit)</a>
-					<a href="{% url 'delete_post' post.pk %}">(Delete)</a>
-				{% endif %}
+	  .smaller-heading {
+	    font-size: 40px; /* Adjust the size as needed */
+	  }
+
+	  .post-meta {
+	    font-size: 15px;
+	    color: #555;
+	  }
+	</style>
+	<div class="jumbotron jumbotron-sm">
+		<h1 class="display-4 smaller-heading"><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h1>
+		<p class="post-meta">Posted on - {{ post.post_date}}</p>
+	  	<hr class="my-4">
+	  	<p class="lead">{{ post.snippet }}</p>	
+	  	<!--{% if user.is_authenticated %}
+			{% if user.id == post.author.id %}
+			  	<a class="btn btn-primary btn-lg" href="{% url 'update_post' post.pk %}" role="button">Edit</a>
+			    <a class="btn btn-primary btn-lg" href="{% url 'delete_post' post.pk %}" role="button">Delete</a>
 			{% endif %}
-			</small>
-			<br/>
-			{{ post.snippet }}
-		</li>
+		{% endif %}-->
+	</div>	
 	{% endfor %}
-</ul>
 
 {% endblock %}
+
+
 
