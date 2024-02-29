@@ -54,6 +54,23 @@
 
 	  	<hr class="my-4">
 	  	<p class="lead">{{ post.body|safe }}</p>	
+
+	  	<h2>Comments...</h2>
+	  	{% if not post.comments.all %}
+	  		No Comments Yet...<a href="#">Add One</a>
+	  	{% else %}
+	  		<a href="">Add Comment</a>
+	  		<br>
+	  		<strong>{% for comment in post.comments.all %}
+	  			{{ comment.name }} - {{ comment.date_added }}</strong>
+	  			<br>
+	  			{{ comment.body }}
+	  		{% endfor %}
+	  	{% endif %}
+	  	<br>
+
+	  	<a href="">Add Comment</a>
+	  	
 	</div>	
 
 <hr>

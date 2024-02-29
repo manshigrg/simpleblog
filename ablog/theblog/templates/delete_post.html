@@ -27,13 +27,14 @@
 		</style>
 		
 		<div class="form-group">
-			<h4>Are you sure?</h4>
+			<h5>Confirm Deletion</h5>
+			<hr>
 
 			<form method="POST">
 				{% csrf_token %}
 				<div class="row">
                     <div class="col-6">
-                        <h6>Delete: {{ post.title }}</h6>
+                        Are you sure you want to delete {{ post.title }}
                     </div>
                     <div class="col-6 text-right">
                         <button class="btn btn-danger">Delete</button>
