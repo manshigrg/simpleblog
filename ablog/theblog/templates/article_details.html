@@ -55,22 +55,26 @@
 	  	<hr class="my-4">
 	  	<p class="lead">{{ post.body|safe }}</p>	
 
-	  	<h2>Comments...</h2>
-	  	{% if not post.comments.all %}
-	  		No Comments Yet...<a href="{% url 'add_comment' post.pk %}">Add Comment</a>
-	  	{% else %}
-	  		<a href="{% url 'add_comment' post.pk %}">Add Comment</a>
-	  		<br>
-	  		<strong>{% for comment in post.comments.all %}
-	  			{{ comment.name }} - {{ comment.date_added }}</strong>
-	  			<br>
-	  			{{ comment.body }}
-	  		{% endfor %}
-	  		<a href="{% url 'add_comment' post.pk %}">Add Comment</a>
-	  	{% endif %}
+	  	<h4>Comments</h4>
+	  	{% if user.is_authenticated %}
+		  	{% if not post.comments.all %}
+		  		<a href="{% url 'add_comment' post.pk %}">Add a comment</a>
+		  		<br>
+		  		No comments yet...
+		  	{% else %}
+		  		<a href="{% url 'add_comment' post.pk %}">Add a comment</a>
+		  		<br>
+		  		{% for comment in post.comments.all %}
+		  			<strong>{{ comment.name }} - {{ comment.date_added }}</strong>
+		  			<br>
+		  			{{ comment.body }}
+		  			<br>
+		  		{% endfor %}
+		  	{% endif %}
+		{% else %}
+			<small><a href="{% url 'login' %}">Login to comment</a></small>
+		{% endif %}
 	  	<br>
-
-
 	</div>	
 
 <hr>

@@ -44,6 +44,6 @@ class CommentForm(forms.ModelForm):
 		fields = ('name', 'body')
 
 		widgets = {
-		'name': forms.TextInput(attrs={'class':'form-control'}),
+		'name': forms.TextInput(attrs={'class':'form-control', 'value':'', 'id':'username', 'type':'hidden'}),
 		'body': forms.TextInput(attrs={'class':'form-control'}),
 		}
