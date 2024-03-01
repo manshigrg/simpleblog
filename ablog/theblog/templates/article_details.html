@@ -57,10 +57,10 @@
 	
 	</div>
 
-	  	<h4>Comments</h4>
-	  	<hr>	
+	  	<h4>Comments</h4>	
 
 	  	{% if user.is_authenticated %}
+	  	<hr>
 		  	{% if not post.comments.all %}
 			  	<form method="POST" action="{% url 'add_comment' post.pk %}">
 			  		{% csrf_token %}
@@ -85,6 +85,9 @@
 		  		{% endfor %}
 		  	{% endif %}
 		{% else %}
+			<small><a href="{% url 'login' %}">Login to comment</a></small>
+			<hr>
+
 			{% for comment in post.comments.all %}
 	  			<strong>{{ comment.name }} - {{ comment.date_added }}</strong>
 	  			<br>
