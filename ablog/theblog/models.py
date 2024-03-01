@@ -16,7 +16,7 @@ class Category(models.Model):
 
 class Post(models.Model):
 	title = models.CharField(max_length=255)
-	title_tag = models.CharField(max_length=255)
+	title_tag = models.CharField(max_length=255, default='Blog', blank=True)
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
 	#body = models.TextField()
 	body = RichTextField(blank=True, null=True)

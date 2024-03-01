@@ -37,26 +37,27 @@ class HomeView(CatMenuMixin, ListView):
 	#ordering = ['-id']
 	ordering = ['-post_date']
 
-class CategoryListView(CatMenuMixin, ListView):
-	model = Category
-	template_name = 'category_list.html'
-	context_object_name = 'cat_menu_list'
+def CategoryListView(request):
+	cat_menu_list = Category.objects.all()
+	return render(request, 'category_list.html', {'cat_menu_list': cat_menu_list})
 
-class CategoryView(CatMenuMixin, ListView):
+class CategoryView(ListView):
 	model = Post
 	template_name = 'categories.html'
 	context_object_name = 'category_posts'
 
 	def get_queryset(self):
-		# Retrieve posts related to the specified category
 		category_name = self.kwargs['cats']
-		category = Category.objects.get(name=category_name)
+		category = get_object_or_404(Category, name=category_name)
 		return Post.objects.filter(category=category)
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		context['category'] = self.get_queryset().first().category  # Assuming all posts have the same category
+		category_name = self.kwargs['cats']
+		context['cats'] = category_name.title()
+		context["cat_menu"] = Category.objects.all()
 		return context
+
 
 class ArticleDetailView(CatMenuMixin, DetailView):
 	model = Post
@@ -110,6 +111,9 @@ class UpdatePostView(CatMenuMixin, UpdateView):
 	form_class = EditForm
 	template_name = 'update_post.html'
 	#fields = ['title', 'title_tag', 'body']
+
+	def get_success_url(self):
+		return reverse_lazy('article-detail', kwargs={'pk': self.kwargs['pk']})
 
 class DeletePostView(CatMenuMixin, DeleteView):
 	model = Post 
