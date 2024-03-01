@@ -60,10 +60,13 @@ class ArticleDetailView(DetailView):
 		if stuff.likes.filter(id=self.request.user.id).exists():
 			liked = True
 
-
 		context["cat_menu"] = cat_menu
 		context["total_likes"] = total_likes
 		context["liked"] = liked
+
+		comment_form = CommentForm()
+		context["comment_form"] = comment_form
+
 		return context
 
 class AddPostView(CreateView):
@@ -81,7 +84,8 @@ class AddCommentView(CreateView):
 		form.instance.post_id = self.kwargs['pk']
 		return super().form_valid(form)
 
-	success_url = reverse_lazy('home')
+	def get_success_url(self):
+		return reverse_lazy('article-detail', kwargs={'pk': self.kwargs['pk']})
 
 class AddCategoryView(CreateView):
 	model = Category 
