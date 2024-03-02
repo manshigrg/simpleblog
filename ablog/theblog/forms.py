@@ -13,6 +13,13 @@ class PostForm(forms.ModelForm):
 		model = Post
 		fields = ('title', 'title_tag', 'author', 'category', 'body', 'snippet')
 
+		def __init__(self, *args, **kwargs):
+			category_choices = kwargs.pop('category_choices', [])
+			super().__init__(*args, **kwargs)
+
+			# Update the choices for the 'category' field
+			self.fields['category'].widget.choices = category_choices
+		
 		widgets = {
 		'title': forms.TextInput(attrs={'class':'form-control'}),
 		'title_tag': forms.TextInput(attrs={'class':'form-control', 'type':'hidden'}),

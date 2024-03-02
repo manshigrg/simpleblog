@@ -89,17 +89,32 @@ class AddPostView(CatMenuMixin, CreateView):
 	template_name = 'add_post.html'
 	#fields = '__all__'
 
+	def get_form(self, form_class=None):
+		form = super().get_form(form_class)
+		# Dynamically update the choices for the 'category' field
+		form.fields['category'].widget.choices = Category.objects.values_list('name', 'name')
+		return form
+
+	def form_valid(self, form):
+		# Handle form submission and save the data
+		# ...
+		return super().form_valid(form)
+
 class AddCommentView(CatMenuMixin, CreateView):
 	model = Comment 
 	form_class = CommentForm
 	template_name = 'add_comment.html'
 
-	def form_valid(self, form):
-		form.instance.post_id = self.kwargs['pk']
-		return super().form_valid(form)
+	def get_form_kwargs(self):
+		kwargs = super().get_form_kwargs()
+		# Dynamically update the choices for the 'category' field
+		kwargs['category_choices'] = Category.objects.values_list('name', 'name')
+		return kwargs
 
-	def get_success_url(self):
-		return reverse_lazy('article-detail', kwargs={'pk': self.kwargs['pk']})
+	def form_valid(self, form):
+		# Handle form submission and save the data
+		# ...
+		return super().form_valid(form)
 
 class AddCategoryView(CatMenuMixin, CreateView):
 	model = Category 
