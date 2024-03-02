@@ -100,27 +100,6 @@ class AddPostView(CatMenuMixin, CreateView):
 		# ...
 		return super().form_valid(form)
 
-class AddCommentView(CatMenuMixin, CreateView):
-	model = Comment 
-	form_class = CommentForm
-	template_name = 'add_comment.html'
-
-	def get_form_kwargs(self):
-		kwargs = super().get_form_kwargs()
-		# Dynamically update the choices for the 'category' field
-		kwargs['category_choices'] = Category.objects.values_list('name', 'name')
-		return kwargs
-
-	def form_valid(self, form):
-		# Handle form submission and save the data
-		# ...
-		return super().form_valid(form)
-
-class AddCategoryView(CatMenuMixin, CreateView):
-	model = Category 
-	template_name = 'add_category.html'
-	fields = '__all__'
-		
 class UpdatePostView(CatMenuMixin, UpdateView):
 	model = Post 
 	form_class = EditForm
@@ -130,6 +109,23 @@ class UpdatePostView(CatMenuMixin, UpdateView):
 	def get_success_url(self):
 		return reverse_lazy('article-detail', kwargs={'pk': self.kwargs['pk']})
 
+class AddCommentView(CatMenuMixin, CreateView):
+	model = Comment 
+	form_class = CommentForm
+	template_name = 'add_comment.html'
+
+	def form_valid(self, form):
+		form.instance.post_id = self.kwargs['pk']
+		return super().form_valid(form)
+
+	def get_success_url(self):
+		return reverse_lazy('article-detail', kwargs={'pk': self.kwargs['pk']})
+
+class AddCategoryView(CatMenuMixin, CreateView):
+	model = Category 
+	template_name = 'add_category.html'
+	fields = '__all__'
+	
 class DeletePostView(CatMenuMixin, DeleteView):
 	model = Post 
 	template_name = 'delete_post.html'
