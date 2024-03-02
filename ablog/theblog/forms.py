@@ -27,12 +27,13 @@ class PostForm(forms.ModelForm):
 class EditForm(forms.ModelForm):
 	class Meta:
 		model = Post
-		fields = ('title', 'title_tag', 'body', 'snippet')
+		fields = ('title', 'title_tag', 'category','body', 'snippet')
 
 		widgets = {
 		'title': forms.TextInput(attrs={'class':'form-control'}),
-		'title_tag': forms.TextInput(attrs={'class':'form-control'}),
+		'title_tag': forms.TextInput(attrs={'class':'form-control', 'type':'hidden'}),
 		#'author': forms.Select(attrs={'class':'form-control'}),
+		'category': forms.Select(choices=choice_list, attrs={'class':'form-control'}),
 		'body': forms.Textarea(attrs={'class':'form-control'}),
 		'snippet': forms.Textarea(attrs={'class':'form-control'}),
 
@@ -45,7 +46,7 @@ class CommentForm(forms.ModelForm):
 
 		widgets = {
 		'name': forms.TextInput(attrs={'class':'form-control', 'value':'', 'id':'username', 'type':'hidden'}),
-		'body': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Add a Comment'}),
+		'body': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Add a comment'}),
 		}
 
 		labels = {

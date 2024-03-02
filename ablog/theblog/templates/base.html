@@ -88,9 +88,24 @@
     <br/>
     
     <div class="container">
-       {% block content %}
+      {% if messages %}
 
-       {% endblock %}
+        {% for message in messages %}
+          <div class="alert alert-primary" id="myAlert" role="alert">
+            {{ message }}
+          </div>
+
+          <script>
+              setTimeout(function () {
+                  $('#myAlert').alert('close');
+              }, 1000);
+          </script>
+        {% endfor %}
+
+      {% endif%}
+
+      {% block content %}
+      {% endblock %}
     </div>
 
     <!-- Optional JavaScript -->

@@ -5,10 +5,15 @@
 
     {% if form.errors %}
 
-		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		<div class="alert alert-primary" id="myAlert" role="alert">
             There was an error with your form
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+
+        <script>
+          setTimeout(function () {
+              $('#myAlert').alert('close');
+          }, 2000);
+      </script>
 
     {% endif %}
 
