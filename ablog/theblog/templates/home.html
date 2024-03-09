@@ -19,7 +19,7 @@
 	  }
 	</style>
 	<div class="jumbotron jumbotron-sm">
-		<p class="post-meta">{{ post.author }} . {{ post.post_date}}</p>
+		<p class="post-meta">{{ post.author }} . {{ post.post_date}}  {{ post.author.first_name}}</p>
 		<h1 class="display-4 smaller-heading"><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h1>
 	  	<hr class="my-4">
 	  	<p class="lead">{{ post.snippet }}</p>	
