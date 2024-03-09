@@ -4,10 +4,57 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-	<h1>Add Category</h1>
-	<br/><br/>
+	
+	<style>
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-	<div class="form-group">
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn-secondary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background-color: #0056b3;
+        }
+
+        .heading-container {
+            text-align: center;
+            margin-bottom: 20px; /* Add margin to the heading */
+        }
+
+    </style>
+
+	<div class="form-container">
+		<div class="heading-container">
+            <h3>New Category</h3>
+        </div>
 		<form method="POST">
 			{% csrf_token %}
 			{{ form.as_p }}
