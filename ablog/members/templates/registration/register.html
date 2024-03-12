@@ -1,18 +1,82 @@
-{% extends 'base.html' %}
+{% extends 'registration/base.html' %}
 {% block title %}Register{% endblock %}
 
 {% block content %}
+	<br><br>
 
-	
-	<div class="form-group">
-		<h4>Register</h4>
+	{% if form.errors %}
 
-		<form method="POST">
+		<div class="alert alert-danger" id="myAlert" role="alert">
+            There was an error with your form
+        </div>
+
+        <script>
+          setTimeout(function () {
+              $('#myAlert').alert('close');
+          }, 2000);
+      </script>
+
+    {% endif %}
+
+	<style>
+
+		.btn-custom {
+			width: 100%;
+			color: #FFFFFF;
+            background-color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-custom:hover {
+        	color: #FFFFFF;
+            background: #171A21
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+
+        .heading-container {
+            text-align: center;
+            margin-bottom: 20px; /* Add margin to the heading */
+        }
+
+        form {
+	      max-width: 100%; /* Adjust the width as needed */
+	      margin: 0 auto;
+	    }
+
+	    label {
+	      display: block;
+	      margin-bottom: 8px;
+	      font-weight: bold;
+	    }
+	</style>
+
+	<div class="form-container">
+		<div class="heading-container">
+            <h3>Registration</h3>
+        </div>
+		<hr>
+		<form method=POST>
 			{% csrf_token %}
-			{{ form.as_p }}
-			<button class="btn btn-secondary">Register</button>
+			{{ form.as_p }}			
+			<br>	
+			<button class="btn btn-custom">Register</button>
 		</form>
+			
 	</div>
+
+	<br><br>
 
 
 {% endblock %}

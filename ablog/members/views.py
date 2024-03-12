@@ -9,7 +9,7 @@ from theblog.models import Profile
 #from django.contrib.auth import authenticate, login, logout
 #from django.contrib.auth.decorators import login_required
 #from .forms import EditProfileForm
-#from django.contrib import messages
+from django.contrib import messages
 #from .forms import RegisterUserForm
 
 class CreateProfilePageView(CreateView):
@@ -48,6 +48,11 @@ class UserRegisterView(generic.CreateView):
 	form_class = SignUpForm
 	template_name = 'registration/register.html'
 	success_url = reverse_lazy('login')
+
+	def form_valid(self, form):
+		response = super().form_valid(form)
+		messages.success(self.request, 'Registration successful...')
+		return response
 
 
 class UserEditView(generic.UpdateView):
