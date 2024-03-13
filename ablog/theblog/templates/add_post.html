@@ -5,36 +5,6 @@
 
 {% if user.is_authenticated %}
 	
-	<style>
-		.form-group {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-		form {
-			width: 100%;
-			margin: auto;
-			padding: 20px;
-		}
-
-		.btn-secondary {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .btn-secondary:hover {
-            background-color: #0056b3;
-        }
-	</style>
-
 	<div class="form-group">
 		<h4>Post Blog</h4>
 
@@ -42,6 +12,7 @@
 			{% csrf_token %}
 			{{ form.media }}
 			{{ form.as_p }}
+			<br>
 			<button class="btn btn-secondary">Post Blog</button>
 		</form>
 	</div>

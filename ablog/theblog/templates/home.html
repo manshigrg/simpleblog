@@ -1,29 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+	<br>
 
 	{% for post in object_list %}
-	<style>
-	  .jumbotron-sm {
-	    font-size: 14px;
-	    background: white;
-	  }
+	
+		<p><a href="{% url 'show_profile_page' post.author.profile.id %}" class="post-link">
+			{% if post.author.profile.profile_pic %}
+	      		<img src="{{ post.author.profile.profile_pic.url }}" class="rounded-circle" height=30 width=30>
+	      	{% else %}
+	      		<img src="{% static 'theblog/images/default_profile_pic.png' %}" class="rounded-circle" height=30 width=30>
+	      	{% endif %}
+	      	{{ post.author.first_name}} {{ post.author.last_name}}</a> | {{ post.post_date}}
+	    </p>
+		<h5><a href="{% url 'article-detail' post.pk %}" class="post-link">{{ post.title }}</a></h5>
+	  	<p>{{ post.snippet }}</p>
+	  	<br>	
+	  	<hr>
+	  	<br>
 
-	  .smaller-heading {
-	    font-size: 40px; /* Adjust the size as needed */
-	  }
-
-	  .post-meta {
-	    font-size: 15px;
-	    color: #555;
-	  }
-	</style>
-	<div class="jumbotron jumbotron-sm">
-		<p class="post-meta">{{ post.author }} . {{ post.post_date}}  {{ post.author.first_name}}</p>
-		<h1 class="display-4 smaller-heading"><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h1>
-	  	<hr class="my-4">
-	  	<p class="lead">{{ post.snippet }}</p>	
-	</div>	
 	{% endfor %}
 
 {% endblock %}

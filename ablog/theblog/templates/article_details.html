@@ -6,6 +6,7 @@
 
 <style>
 	  .jumbotron-sm {
+	  	background: white;
 	    font-size: 14px;
 	  }
 
@@ -23,7 +24,7 @@
 		}
 	</style>
 	<div class="jumbotron jumbotron-sm">
-		<h1 class="display-4 smaller-heading"><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h1>
+		<h1 class="display-4 smaller-heading">{{ post.title }}</h1>
 	  	<p class="post-meta">Posted on - {{ post.post_date}}
 	  	{% if user.is_authenticated %}
 			{% if user.id == post.author.id %}
