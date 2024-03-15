@@ -1,36 +1,28 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+<br>
 	{% if category_posts %}
-		<h3>{{ cats }}</h3>
-		<br>
+		<h5>{{ cats }}</h5>
+		<br><br>
 		{% for post in category_posts %}
-			<style>
-			  .jumbotron-sm {
-			    font-size: 14px;
-			  }
 
-			  .smaller-heading {
-			    font-size: 40px; /* Adjust the size as needed */
-			  }
+			<p><a href="{% url 'show_profile_page' post.author.profile.id %}" class="post-link">
+				{% if post.author.profile.profile_pic %}
+		      		<img src="{{ post.author.profile.profile_pic.url }}" class="rounded-circle" height=30 width=30>
+		      	{% else %}
+		      		<img src="{% static 'theblog/images/default_profile_pic.png' %}" class="rounded-circle" height=30 width=30>
+		      	{% endif %}
+		      	{{ post.author.first_name}} {{ post.author.last_name}}</a> | {{ post.post_date}}
+		    </p>
+			<h5><a href="{% url 'article-detail' post.pk %}" class="post-link">{{ post.title }}</a></h5>
+		  	<p>{{ post.snippet }}</p>
+		  	<br>	
+		  	<hr class="my-2 light">
+		  	<br>
 
-			  .post-meta {
-			    font-size: 15px;
-			    color: #555;
-			  }
-			</style>
-			<div class="jumbotron jumbotron-sm">
-				<h1 class="display-4 smaller-heading"><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h1>
-				<p class="post-meta">Posted on - {{ post.post_date}}</p>
-			  	<hr class="my-4">
-			  	<p class="lead">{{ post.snippet }}</p>	
-			  	<!--{% if user.is_authenticated %}
-					{% if user.id == post.author.id %}
-					  	<a class="btn btn-primary btn-lg" href="{% url 'update_post' post.pk %}" role="button">Edit</a>
-					    <a class="btn btn-primary btn-lg" href="{% url 'delete_post' post.pk %}" role="button">Delete</a>
-					{% endif %}
-				{% endif %}-->
-			</div>	
+			
 			
 		{% endfor %}
 

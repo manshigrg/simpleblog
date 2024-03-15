@@ -4,15 +4,16 @@ from django.views.generic import DetailView, CreateView
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
-from .forms import SignUpForm, EditProfileForm, ProfilePageForm
+from .forms import SignUpForm, EditProfileForm, ProfilePageForm, ProfileEditForm
 from theblog.models import Profile
+from theblog.views import CatMenuMixin
 #from django.contrib.auth import authenticate, login, logout
 #from django.contrib.auth.decorators import login_required
 #from .forms import EditProfileForm
 from django.contrib import messages
 #from .forms import RegisterUserForm
 
-class CreateProfilePageView(CreateView):
+class CreateProfilePageView(CatMenuMixin, CreateView):
 	model = Profile
 	form_class = ProfilePageForm
 	template_name = 'registration/create_user_profile_page.html'
@@ -23,14 +24,14 @@ class CreateProfilePageView(CreateView):
 		return super().form_valid(form)
 
 
-class EditProfilePageView(generic.UpdateView):
+class EditProfilePageView(CatMenuMixin, generic.UpdateView):
 	model = Profile
+	form_class = ProfileEditForm
 	template_name = 'registration/edit_profile_page.html'
-	fields = ['bio', 'profile_pic', 'website_url', 'facebook_url', 'twitter_url', 'instagram_url', 'pinterest_url']
 
 	success_url = reverse_lazy('home')
 
-class ShowProfilePageView(DetailView):
+class ShowProfilePageView(CatMenuMixin, DetailView):
 	model = Profile
 	template_name = 'registration/user_profile.html'
 
@@ -55,7 +56,7 @@ class UserRegisterView(generic.CreateView):
 		return response
 
 
-class UserEditView(generic.UpdateView):
+class UserEditView(CatMenuMixin, generic.UpdateView):
 	form_class = EditProfileForm
 	template_name = 'registration/edit_profile.html'
 	success_url = reverse_lazy('home')

@@ -17,10 +17,12 @@
 		<h5><a href="{% url 'article-detail' post.pk %}" class="post-link">{{ post.title }}</a></h5>
 	  	<p>{{ post.snippet }}</p>
 	  	<br>	
-	  	<hr>
+	  	<hr class="my-2 light">
 	  	<br>
 
 	{% endfor %}
+
+	<br><br><br>
 
 {% endblock %}
 

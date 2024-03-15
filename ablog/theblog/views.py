@@ -74,6 +74,9 @@ class ArticleDetailView(CatMenuMixin, DetailView):
 		if stuff.likes.filter(id=self.request.user.id).exists():
 			liked = True
 
+		# Get comments ordered by date in descending order (most recent first)
+		comments = stuff.comments.order_by('-date_added')
+
 		context["cat_menu"] = cat_menu
 		context["total_likes"] = total_likes
 		context["liked"] = liked

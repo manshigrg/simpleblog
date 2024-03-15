@@ -59,5 +59,8 @@ class Comment(models.Model):
 	body = models.TextField()
 	date_added = models.DateTimeField(auto_now_add=True)
 
+	class Meta:
+		ordering = ['-date_added']  # Ordering comments by date_added in descending order
+
 	def __str__(self):
 		return '%s - %s' % (self.post.title, self.name)

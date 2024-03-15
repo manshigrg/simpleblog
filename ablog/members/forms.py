@@ -3,6 +3,20 @@ from django.contrib.auth.models import User
 from django import forms
 from theblog.models import Profile
 
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['bio', 'profile_pic', 'website_url', 'facebook_url', 'twitter_url', 'instagram_url', 'pinterest_url']
+        widgets = {
+            'bio': forms.Textarea(attrs={'class': 'form-control'}),
+            'profile_pic': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'website_url': forms.URLInput(attrs={'class': 'form-control'}),
+            'facebook_url': forms.URLInput(attrs={'class': 'form-control'}),
+            'twitter_url': forms.URLInput(attrs={'class': 'form-control'}),
+            'instagram_url': forms.URLInput(attrs={'class': 'form-control'}),
+            'pinterest_url': forms.URLInput(attrs={'class': 'form-control'}),
+        }
+        
 class ProfilePageForm(forms.ModelForm):
 	class Meta:
 		model = Profile
@@ -52,5 +66,8 @@ class EditProfileForm(UserChangeForm):
 	def __init__(self, *args, **kwargs):
 		super(EditProfileForm, self).__init__(*args, **kwargs)
 
-		self.fields['password'].widget = forms.PasswordInput(attrs={'class': 'form-control'})
-		
+		#self.fields['password'].widget = forms.PasswordInput(attrs={'class': 'form-control'})
+		# Set the password field widget to HiddenInput
+		self.fields['password'].widget = forms.HiddenInput()
+		# Remove help text for the password field
+		self.fields['password'].help_text = ''
