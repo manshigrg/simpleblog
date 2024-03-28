@@ -19,11 +19,15 @@
         Blog
       {% endblock %}
     </title>
-  </head>
-  <body>
+
     <style>
       hr.light {
         border-top: 1px solid #ccc;
+      }
+
+      :root {
+          --bs-primary: black;
+          --bs-orange: #525252; /* Define orange color variable */
       }
       
       body {
@@ -38,13 +42,34 @@
       .navbar-brand {
         padding-left: 15px;
         font-weight: bold;
+        color: var(--bs-primary) !important;
       }
 
-      .navbar-nav .nav-item a.nav-link {
+      .navbar-brand:hover {
+        color: var(--bs-orange) !important;
+      }
+
+      .navbar-nav .nav-item .nav-link {
         font-size: 18px;
         color: black;
         padding-left: 30px;
         padding-right: 0px;
+      }
+
+      .custom-link {
+        font-size: 13.5px;
+        color: black;
+        text-decoration: none;
+      }
+
+      .custom-link:hover {
+        text-decoration: none;
+        color: #525252;
+      }
+
+      .custom-pad {
+        padding-right: 5px;
+        padding-left: 5px;
       }
 
       .form-group {
@@ -129,7 +154,8 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
-
+  </head>
+  <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top text-center shadow-sm">
     <div class="container-fluid">
       <a class="navbar-brand" href="{% url 'home' %}">theblog</a>
@@ -203,11 +229,11 @@
 
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'register' %}">Sign up</a>
+            <a class="custom-link custom-pad" href="{% url 'register' %}">Sign up</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Login</a>
+            <a class="custom-link custom-pad" href="{% url 'login' %}">Login</a>
           </li>
 
         {% endif %}

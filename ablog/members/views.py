@@ -7,11 +7,10 @@ from django.urls import reverse_lazy
 from .forms import SignUpForm, EditProfileForm, ProfilePageForm, ProfileEditForm
 from theblog.models import Profile
 from theblog.views import CatMenuMixin
-#from django.contrib.auth import authenticate, login, logout
-#from django.contrib.auth.decorators import login_required
 #from .forms import EditProfileForm
 from django.contrib import messages
-#from .forms import RegisterUserForm
+from django.contrib.auth import authenticate, login, logout
+
 
 class CreateProfilePageView(CatMenuMixin, CreateView):
 	model = Profile
@@ -69,5 +68,24 @@ class PasswordsChangeView(PasswordChangeView):
 	success_url = reverse_lazy('home')
 
 
+def login_user(request):
+	if request.method == "POST":
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(request, username=username, password=password)
+		if user is not None:
+			login(request, user)
+			if user.is_superuser:
+				#messages.success(request, ("You have logged in"))
+				return redirect('admin_approval')
+			else:
+				#messages.success(request, ("You have logged in"))
+				return redirect('home')
+		else:
+			#return an 'invalid login' error message
+			messages.success(request, ("Invalid login credentials. Please try again."))
+			return redirect('login')
+	else:
+		return render(request, 'registration/login.html', {})
 
 

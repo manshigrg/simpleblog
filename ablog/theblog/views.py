@@ -11,6 +11,11 @@ from django.contrib import messages
 #def home(request):
 #	return render(request, 'home.html', {})
 
+def admin_approval(request):
+	template_name = 'admin_approval.html'
+	return render(request, template_name)
+
+
 def LikeView(request, pk):
 	post = get_object_or_404(Post, id=request.POST.get('post_id'))
 	liked = False
@@ -36,6 +41,11 @@ class HomeView(CatMenuMixin, ListView):
 	cats = Category.objects.all()
 	#ordering = ['-id']
 	ordering = ['-post_date']
+
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_superuser:
+			return redirect('admin_approval')
+		return super().dispatch(request, *args, **kwargs)
 
 def CategoryListView(request):
 	cat_menu_list = Category.objects.all()
