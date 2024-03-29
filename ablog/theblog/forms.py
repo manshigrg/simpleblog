@@ -1,6 +1,20 @@
 from django import forms
 from .models import Post, Category, Comment
 
+class CategoryForm(forms.ModelForm):
+	class Meta:
+		model = Category
+		fields = ['name']
+		
+		widgets = {
+		'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Add new category'}),
+		}
+		
+		labels = {
+		'name': '',
+		}
+
+
 #choices = [('coding', 'coding'), ('sports', 'sports'), ('entertainment', 'entertainment')]
 choices = Category.objects.all().values_list('name', 'name')
 choice_list = []

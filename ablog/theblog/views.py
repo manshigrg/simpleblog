@@ -1,20 +1,59 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from .models import Post, Category, Comment
-from .forms import PostForm, EditForm, CommentForm
+from .forms import PostForm, EditForm, CommentForm, CategoryForm
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
 
-
-# Create your views here.
-#def home(request):
-#	return render(request, 'home.html', {})
 
 def admin_approval(request):
 	template_name = 'admin_approval.html'
-	return render(request, template_name)
 
+	user_count = User.objects.all().count()
+	post_count = Post.objects.all().count()
+	posts = Post.objects.all().order_by('-post_date')
+
+	categories = Category.objects.all()
+
+	# If the request method is POST, process the category form
+	if request.method == 'POST':
+		category_form = CategoryForm(request.POST)
+		if category_form.is_valid():
+			category_form.save()  # Save the category if the form is valid
+			# Optionally, you can add a success message here
+			return redirect('admin_approval')  # Redirect to the admin_approval page
+	else:
+		category_form = CategoryForm()  # Create a new instance of the CategoryForm
+
+	return render(request, template_name, {"user_count": user_count, "post_count": post_count, "posts": posts, "category_form": category_form, "categories": categories})
+
+def delete_category(request, category_id):
+	category = Category.objects.get(pk=category_id)
+
+	if request.user.is_superuser:
+		category.delete()
+		return redirect('admin_approval')  # Redirect to admin_approval page for superuser
+	else:
+		messages.error(request, "You are not authorized to delete this event")
+		return redirect('home')
+
+def update_category(request, category_id):
+	template_name = 'update_category.html'
+
+	category = Category.objects.get(pk=category_id)
+	if request.user.is_superuser:
+		form = CategoryForm(request.POST or None, instance=category)
+	else:
+		form = CategoryForm(request.POST or None, instance=category)
+	
+	if form.is_valid():
+		form.save()
+		return redirect('admin_approval')
+
+	return render(request, template_name, {'category': category, 'form':form}) 
 
 def LikeView(request, pk):
 	post = get_object_or_404(Post, id=request.POST.get('post_id'))
@@ -41,11 +80,6 @@ class HomeView(CatMenuMixin, ListView):
 	cats = Category.objects.all()
 	#ordering = ['-id']
 	ordering = ['-post_date']
-
-	def dispatch(self, request, *args, **kwargs):
-		if request.user.is_superuser:
-			return redirect('admin_approval')
-		return super().dispatch(request, *args, **kwargs)
 
 def CategoryListView(request):
 	cat_menu_list = Category.objects.all()
@@ -143,3 +177,13 @@ class DeletePostView(CatMenuMixin, DeleteView):
 	model = Post 
 	template_name = 'delete_post.html'
 	success_url = reverse_lazy('home')
+
+def delete_post(request, post_id):
+	post = Post.objects.get(pk=post_id)
+
+	if request.user.is_superuser:
+		post.delete()
+		return redirect('admin_approval')  # Redirect to admin_approval page for superuser
+	else:
+		messages.error(request, "You are not authorized to delete this event")
+		return redirect('home')

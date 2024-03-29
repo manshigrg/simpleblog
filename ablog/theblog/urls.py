@@ -15,4 +15,7 @@ urlpatterns = [
     path('like/<int:pk>', LikeView, name='like_post'),
     path('article/<int:pk>/comment/', AddCommentView.as_view(), name="add_comment"),
     path('admin_approval/', admin_approval, name='admin_approval'),
+    path('delete_post/<post_id>', views.delete_post, name='delete-post'),
+    path('delete_category/<category_id>/', views.delete_category, name='delete-category'),
+    path('update_category/<category_id>', views.update_category, name='update-category'),
 ]

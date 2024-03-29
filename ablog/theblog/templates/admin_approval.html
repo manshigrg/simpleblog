@@ -54,7 +54,7 @@
         }
 
         .custom-heading {
-        	padding-top: 20px;
+        	padding-top: 26px;
         	padding-bottom: 10px;
         	color: #8585ff;
         }
@@ -98,13 +98,79 @@
 	  </div>
 	  <div class="tab-content" id="v-pills-tabContent">
 	    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-	    	<h4 class="custom-heading"><strong>Admin Dashboard</strong></h4> 
+	    	<h4 class="custom-heading"><strong>Admin Dashboard</strong></h4>   
+	    	<br>
+	    	<div class="count-container">
+	    		<!-- User Count -->
+		        <div class="count-box">
+		            <h6 class="custom-heading1"><strong>Blog Users</strong></h6> <center>{{ user_count }}</center>
+		        </div>
+		        <!-- BLog Count -->
+		        <div class="count-box">
+		            <h6 class="custom-heading1"><strong>Total Blog</strong></h6><center>{{ post_count }}</center>
+		        </div>
+		        
+		    </div>
 	    </div>
 	    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
 	    	<h4 class="custom-heading"><strong>Posts</strong></h4>
+	    	{% if user.is_superuser %}
+			    <table class="table">
+			        <thead>
+			            <tr>
+			                <th>Blog Title</th>
+			                <th>Category</th>
+			                <th>Blog Snippet</th>
+			                <th>Actions</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            {% for post in posts %}
+			            <tr>
+			                <td>{{ post.title }}</td>
+			                <td>{{ post.category }}</td>
+			                <td>{{ post.snippet }}</td>
+			                <td>
+			                    <a href="#" class="btn btn-outline-secondary btn-sm">Update</a>
+			                    <a href="{% url 'delete-post' post.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+			                </td>
+			            </tr>
+			            {% endfor %}
+			        </tbody>
+			    </table>
+			{% endif %}
 	    </div>
 	    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
 	    	<h4 class="custom-heading"><strong>Categories</strong></h4>
+	    	<form method="POST">
+                {% csrf_token %}
+                {{ category_form.as_p }}
+                <button type="submit" class="btn btn-primary">Add Category</button>
+            </form>
+
+            <br>
+
+            <!-- Display Existing Categories -->
+		    <h5>Existing Categories:</h5>
+		    <table class="table">
+		        <thead>
+		            <tr>
+		                <th>Categories</th>
+		                <th>Action</th> <!-- Add Action column -->
+		            </tr>
+		        </thead>
+		        <tbody>
+		            {% for category in categories %}
+		                <tr>
+		                    <td>{{ category.name }}</td>
+		                    <td>
+		                    	<a href="{% url 'update-category' category.id %}" class="btn btn-outline-primary btn-sm">Update</a>
+		                    	<a href="{% url 'delete-category' category.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+		                    </td>
+		                </tr>
+		            {% endfor %}
+		        </tbody>
+		    </table>
 	    </div>
 	  </div>
 	</div>
