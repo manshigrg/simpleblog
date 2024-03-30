@@ -7,7 +7,7 @@ class CategoryForm(forms.ModelForm):
 		fields = ['name']
 		
 		widgets = {
-		'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Add new category'}),
+		'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Add new category', 'size': '25'}),
 		}
 		
 		labels = {

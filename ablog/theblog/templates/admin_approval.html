@@ -48,13 +48,13 @@
         .nav-pills {
             background-color: #8585ff;
             width: 245px;
-            height: 645px;
+            height: 599px;
             overflow-y: auto; /* Add scrollbar if content overflows vertically */
             overflow-x: hidden; /* Hide horizontal scrollbar */
         }
 
         .custom-heading {
-        	padding-top: 26px;
+        	padding-top: 21px;
         	padding-bottom: 10px;
         	color: #8585ff;
         }
@@ -78,6 +78,24 @@
 	        width: 250px;
 	        height: 100px;
 	        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	    }
+
+	    .form-container {
+	        display: flex;
+	        padding-top: 5px;
+	        padding-left: 0px;
+	        padding-right: 0px;
+	        padding-bottom: 5px;
+	    }
+
+	    .custom-cat {
+	    	padding-top: 5px;
+	    	padding-right: 5px;
+	    }
+
+	    .custom-catbtn {
+	    	padding-top: 5px;
+	    	padding-left: 5px;
 	    }
 
     </style>
@@ -143,15 +161,17 @@
 	    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
 	    	<h4 class="custom-heading"><strong>Categories</strong></h4>
 	    	<form method="POST">
-                {% csrf_token %}
-                {{ category_form.as_p }}
-                <button type="submit" class="btn btn-primary">Add Category</button>
+	    		<div class="form-container">
+		    		<div class="custom-cat">
+		                {% csrf_token %}
+		                {{ category_form.as_p }}
+	                </div>
+	                <div class="custom-catbtn">
+	                	<button type="submit" class="btn btn-primary">Add Category</button>
+                	</div>
+            	</div>
             </form>
-
-            <br>
-
             <!-- Display Existing Categories -->
-		    <h5>Existing Categories:</h5>
 		    <table class="table">
 		        <thead>
 		            <tr>
@@ -164,7 +184,7 @@
 		                <tr>
 		                    <td>{{ category.name }}</td>
 		                    <td>
-		                    	<a href="{% url 'update-category' category.id %}" class="btn btn-outline-primary btn-sm">Update</a>
+		                    	<a href="{% url 'update-category' category.id %}" class="btn btn-outline-secondary btn-sm">Update</a>
 		                    	<a href="{% url 'delete-category' category.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
 		                    </td>
 		                </tr>
