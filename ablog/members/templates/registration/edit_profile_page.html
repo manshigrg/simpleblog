@@ -9,7 +9,7 @@
 		<div class="form-group">
 			<h4>Edit Profile</h4>
 
-			<form method="POST">
+			<form method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
 				{{ form.as_p }}
 				<br>

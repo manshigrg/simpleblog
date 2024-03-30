@@ -42,6 +42,23 @@
 
     </div>
 
+    <br><br>	
+
+    {% for post in user_posts %}
+	
+		<p>
+	      	{{ post.author.first_name}} {{ post.author.last_name}}</a> | {{ post.post_date}}
+	    </p>
+		<h5><a href="{% url 'article-detail' post.pk %}" class="post-link">{{ post.title }}</a></h5>
+	  	<p>{{ post.snippet }}</p>
+	  	<br>	
+	  	<hr class="my-2 light">
+	  	<br>
+
+	{% endfor %}
+
+	<br><br><br>
+
 
 {% endblock %}
 

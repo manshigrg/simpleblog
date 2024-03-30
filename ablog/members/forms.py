@@ -6,7 +6,7 @@ from theblog.models import Profile
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['bio', 'profile_pic', 'website_url', 'facebook_url', 'twitter_url', 'instagram_url', 'pinterest_url']
+        fields = ('bio', 'profile_pic', 'website_url', 'facebook_url', 'twitter_url', 'instagram_url', 'pinterest_url')
         widgets = {
             'bio': forms.Textarea(attrs={'class': 'form-control'}),
             'profile_pic': forms.ClearableFileInput(attrs={'class': 'form-control'}),

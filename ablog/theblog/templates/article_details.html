@@ -79,7 +79,7 @@
 			{% endif %}
 					- {{ total_likes }} Likes
 
-			<button class="btn btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="bi bi-chat" style="font-size: 1.5rem;"></i></button>	
+			<button class="btn btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="bi bi-chat" style="font-size: 1.3rem;"></i></button>	
 		</form> 
 
 		
@@ -110,7 +110,7 @@
 		  		<br>
 
 		  		{% for comment in post.comments.all %}
-		  			{{ comment.name }} - {{ comment.date_added }}
+		  			<strong>{{ comment.name }}</strong> - {{ comment.date_added }}
 		  			<br>
 		  			{{ comment.body }}
 		  			<br><hr class="my-2 light">
@@ -121,7 +121,7 @@
 			<hr>
 
 			{% for comment in post.comments.all %}
-	  			<strong>{{ comment.name }} - {{ comment.date_added }}</strong>
+	  			<strong>{{ comment.name }}</strong> - {{ comment.date_added }}
 	  			<br>
 	  			{{ comment.body }}
 	  			<br>
