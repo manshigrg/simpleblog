@@ -8,6 +8,16 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 
+def search_blogs(request):
+	template_name = 'search_blogs.html'
+
+	if request.method == "POST":
+		searched = request.POST['searched']
+		posts = Post.objects.filter(title__contains=searched)
+
+		return render(request, template_name, {'searched':searched, 'posts':posts}) 
+	else:
+		return render(request, template_name, {}) 
 
 def admin_approval(request):
 	template_name = 'admin_approval.html'

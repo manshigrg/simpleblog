@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{searched}}{% endblock %}
+
+
+{% block content %}
+    <br>
+    {% if searched %}
+        {% if posts %}
+            {% for post in posts %}
+                <p><a href="{% url 'show_profile_page' post.author.profile.id %}" class="post-link">
+                    {% if post.author.profile.profile_pic %}
+                        <img src="{{ post.author.profile.profile_pic.url }}" class="rounded-circle" height=30 width=30>
+                    {% else %}
+                        <img src="{% static 'theblog/images/default_profile_pic.png' %}" class="rounded-circle" height=30 width=30>
+                    {% endif %}
+                    {{ post.author.first_name}} {{ post.author.last_name}}</a> | {{ post.post_date}}
+                </p>
+                <h5><a href="{% url 'article-detail' post.pk %}" class="post-link">{{ post.title }}</a></h5>
+                <p>{{ post.snippet }}</p>
+                <br>    
+                <a href="{% url 'category' post.category %}">{{ post.category }}</a>
+                <hr class="my-2 light">
+                <br>
+            {% endfor%}
+
+            <br><br>
+        {% else %}
+            <div class="alert alert-danger" id="noEventAlert" role="alert">
+                No {{searched}} related post found!
+            </div>
+            <br><br>
+            <br><br>
+
+            <script>
+                // JavaScript code to redirect to the my_events page after 2 seconds
+                setTimeout(function() {
+                    window.location.href = "{% url 'home' %}";
+                }, 500); // Redirect after 2 seconds (adjust as needed)
+            </script>   
+        {% endif %}
+    {% else %}
+        <div class="alert alert-success" id="myAlert" role="alert">
+            Hey! You forgot to search for a post!
+        </div>
+        <br><br>
+        <br><br>
+
+        <script>
+            // JavaScript code to redirect to the my_events page after 2 seconds
+            setTimeout(function() {
+                window.location.href = "{% url 'home' %}";
+            }, 200); // Redirect after 2 seconds (adjust as needed)
+        </script>   
+    {% endif %}
+{% endblock %}
