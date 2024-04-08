@@ -19,4 +19,5 @@ urlpatterns = [
     path('delete_category/<category_id>/', views.delete_category, name='delete-category'),
     path('update_category/<category_id>', views.update_category, name='update-category'),
     path('search_blogs', views.search_blogs, name='search_blogs'),
+    path('delete-comment/<int:comment_id>/', views.delete_comment, name='delete-comment'),
 ]

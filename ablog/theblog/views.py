@@ -173,10 +173,23 @@ class AddCommentView(CatMenuMixin, CreateView):
 
 	def form_valid(self, form):
 		form.instance.post_id = self.kwargs['pk']
+		messages.success(self.request, "Posting Comment") 
 		return super().form_valid(form)
 
 	def get_success_url(self):
 		return reverse_lazy('article-detail', kwargs={'pk': self.kwargs['pk']})
+
+def delete_comment(request, comment_id):
+	comment = get_object_or_404(Comment, pk=comment_id)
+
+	if request.user.username == comment.name:  # Check if the current user is the author of the post
+		comment.delete()
+		messages.success(request, "Comment deleted successfully")
+	else:
+		messages.error(request, "You are not authorized to delete this comment")
+
+	# Redirect to the article detail page after deleting the comment
+	return HttpResponseRedirect(reverse('article-detail', args=[str(comment.post.pk)]))
 
 class AddCategoryView(CatMenuMixin, CreateView):
 	model = Category 

@@ -91,42 +91,79 @@
 		  </div>
 		  <div class="offcanvas-body">
 		    {% if user.is_authenticated %}
-		  	{% if not post.comments.all %}
-			  	<form method="POST" action="{% url 'add_comment' post.pk %}">
-			  		{% csrf_token %}
-			  		{{ comment_form.as_p }}
-			  		<button type="submit" class="btn btn-custom btn-sm" style="float: right;">Comment</button>
-			  		<br>
-			  	</form>
-		  		<br>
-		  				  	
-		  	{% else %}
-		  		<form method="POST" action="{% url 'add_comment' post.pk %}">
-			  		{% csrf_token %}
-			  		{{ comment_form.as_p }}
-			  		<button type="submit" class="btn btn-custom btn-sm" style="float: right;">Comment</button>
-			  		<br>
-		  		</form>
-		  		<br>
+			  	{% if not post.comments.all %}
+				  	<form method="POST" action="{% url 'add_comment' post.pk %}">
+				  		{% csrf_token %}
+				  		{{ comment_form.as_p }}
+				  		<button type="submit" class="btn btn-custom btn-sm" style="float: right;">Comment</button>
+				  		<br>
+				  	</form>
+			  		<br><br>
+			  				  	
+			  	{% else %}
+			  		<form method="POST" action="{% url 'add_comment' post.pk %}">
+				  		{% csrf_token %}
+				  		{{ comment_form.as_p }}
+				  		<button type="submit" class="btn btn-custom btn-sm" style="float: right;">Comment</button>
+				  		<br>
+			  		</form>
+			  		<br><br>
 
-		  		{% for comment in post.comments.all %}
+			  		{% for comment in post.comments.all %}
+
+			  			<style>
+			  				.three-dots {
+							  cursor: pointer;
+							  position: relative;
+							}
+
+							.dropdown-menu {
+							  position: absolute;
+							  top: 100%;
+							  left: 0;
+							  z-index: 1000;
+							}
+
+							.comment-container {
+							  display: flex;
+							  justify-content: space-between;
+							}
+							
+			  			</style>
+			  	
+			  			<div class="comment-container">
+				  			<div>
+							  <strong>{{ comment.name }}</strong> - {{ comment.date_added }}
+							</div>
+							{% if request.user.username == comment.name %}
+							  <div class="dropdown">
+							    <span class="three-dots" data-bs-toggle="dropdown">
+							      <i class="bi bi-three-dots-vertical"></i>
+							    </span>
+							    <ul class="dropdown-menu">
+							      <!-- Dropdown options -->
+							      <li>
+							        <a href="{% url 'delete-comment' comment.id %}" class="btn btn-danger btn-sm dropdown-item">Delete Comment</a>
+							      </li>
+							    </ul>
+							  </div>
+							{% endif %}
+						</div>
+			  			{{ comment.body }}
+			  			<br><hr class="my-2 light">
+			  		{% endfor %}
+			  	{% endif %}
+			{% else %}
+				<small><a href="{% url 'login' %}">Login to comment</a></small>
+				<hr>
+
+				{% for comment in post.comments.all %}
 		  			<strong>{{ comment.name }}</strong> - {{ comment.date_added }}
 		  			<br>
 		  			{{ comment.body }}
-		  			<br><hr class="my-2 light">
+		  			<br>
 		  		{% endfor %}
-		  	{% endif %}
-		{% else %}
-			<small><a href="{% url 'login' %}">Login to comment</a></small>
-			<hr>
-
-			{% for comment in post.comments.all %}
-	  			<strong>{{ comment.name }}</strong> - {{ comment.date_added }}
-	  			<br>
-	  			{{ comment.body }}
-	  			<br>
-	  		{% endfor %}
-		{% endif %}
+			{% endif %}
 		  </div>
 		</div>
 
