@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from .models import Post, Category, Comment
 from .forms import PostForm, EditForm, CommentForm, CategoryForm
@@ -7,38 +7,48 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+from django.http import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-def search_blogs(request):
-	template_name = 'search_blogs.html'
-
-	if request.method == "POST":
-		searched = request.POST['searched']
-		posts = Post.objects.filter(title__contains=searched)
-
-		return render(request, template_name, {'searched':searched, 'posts':posts}) 
-	else:
-		return render(request, template_name, {}) 
 
 def admin_approval(request):
 	template_name = 'admin_approval.html'
 
+	if request.method == 'POST':
+		if 'add_category' in request.POST:
+			# Handle adding a new category
+			cat_form = CategoryForm(request.POST)
+			if cat_form.is_valid():
+				cat_form.save()
+				return redirect('admin_approval')
+		elif 'update_category' in request.POST:
+			# Handle updating an existing category
+			category_id = request.POST.get('category_id')
+			category = get_object_or_404(Category, pk=category_id)
+			cat_form = CategoryForm(request.POST, instance=category)
+			if cat_form.is_valid():
+				cat_form.save()
+				return redirect('admin_approval')
+	else:
+		cat_form = CategoryForm()
+
 	user_count = User.objects.all().count()
 	post_count = Post.objects.all().count()
 	posts = Post.objects.all().order_by('-post_date')
-
+	users = User.objects.all()
 	categories = Category.objects.all()
 
-	# If the request method is POST, process the category form
-	if request.method == 'POST':
-		category_form = CategoryForm(request.POST)
-		if category_form.is_valid():
-			category_form.save()  # Save the category if the form is valid
-			# Optionally, you can add a success message here
-			return redirect('admin_approval')  # Redirect to the admin_approval page
-	else:
-		category_form = CategoryForm()  # Create a new instance of the CategoryForm
+	return render(request, template_name, {"user_count": user_count, "post_count": post_count, "users": users, "posts": posts, 'cat_form': cat_form, "categories": categories})
 
-	return render(request, template_name, {"user_count": user_count, "post_count": post_count, "posts": posts, "category_form": category_form, "categories": categories})
+def delete_user(request, user_id):
+	user = User.objects.get(pk=user_id)
+
+	if request.user.is_superuser:
+		user.delete()
+		return redirect('admin_approval')  # Redirect to admin_approval page for superuser
+	else:
+		messages.error(request, "You are not authorized to delete user")
+		return redirect('home')
 
 def delete_category(request, category_id):
 	category = Category.objects.get(pk=category_id)
@@ -84,12 +94,30 @@ class CatMenuMixin(View):
 		context["cat_menu"] = cat_menu
 		return context
 
+class SearchBlogsView(CatMenuMixin, View):
+	template_name = 'search_blogs.html'
+
+	def get(self, request):
+		return render(request, self.template_name, {'cat_menu': Category.objects.all()})
+
+	def post(self, request):
+		searched = request.POST.get('searched')
+		posts = Post.objects.filter(title__contains=searched)
+		context = {'searched': searched, 'posts': posts, 'cat_menu': Category.objects.all()}
+		return render(request, self.template_name, context) 
+
 class HomeView(CatMenuMixin, ListView):
 	model = Post
 	template_name = 'home.html'
 	cats = Category.objects.all()
 	#ordering = ['-id']
 	ordering = ['-post_date']
+
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_superuser:
+			return admin_approval(request)
+		else:
+			return super().dispatch(request, *args, **kwargs)
 
 def CategoryListView(request):
 	cat_menu_list = Category.objects.all()
