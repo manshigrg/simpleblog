@@ -39,6 +39,11 @@
         font-style: normal;
       }
 
+      .nav-link.active {
+        font-weight: bold;
+        color: var(--bs-primary) !important; /* Use your defined orange color */
+      }
+
       .navbar-brand {
         padding-left: 15px;
         font-weight: bold;
@@ -182,17 +187,17 @@
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
 
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">For you</a>
+              <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
             </li>
             
             {% if cat_menu %}
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'category' %}active{% endif %}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Categories
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   {% for item in cat_menu %}
-                    <a class="dropdown-item" href="{% url 'category' item %}">{{ item }}</a>
+                    <a class="dropdown-item {% if request.resolver_match.url_name == 'category' and request.path == item.get_absolute_url %}active{% endif %}" href="{% url 'category' item %}">{{ item }}</a>
                   {% endfor %}
                 </div>
               </li>
@@ -201,7 +206,7 @@
 
             {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'add_post' %}">Write</a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'add_post' %}active{% endif %}" href="{% url 'add_post' %}">Write</a>
               </li>
             {% endif %}
 
@@ -281,6 +286,9 @@
 
        {% endblock %}
     </div>
+
+    <br><br><br><br><br>
+    {% include 'footer.html' %}
 
     <!-- Optional JavaScript -->
 

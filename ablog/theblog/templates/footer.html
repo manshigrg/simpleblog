@@ -1,0 +1,95 @@
+<style>
+  footer {
+    display: flex;
+    justify-content: space-between;
+    background-color: #BBCDE5;
+    padding-top: 40px;
+    padding-bottom: 15px;
+  }
+
+  .footer-brand {
+      flex: 1;
+      padding-left: 50px;
+      color: black;
+  }
+
+  .footer-brand-link {
+      font-size: 22px; /* Adjust font size */
+      font-weight: bold; /* Make the text bold */
+      color: black; /* Link color */
+      text-decoration: none; /* Remove underline */
+  }
+
+  .footer-brand-link:hover {
+      font-size: 22px; /* Adjust font size */
+      font-weight: bold; /* Make the text bold */
+      color: white; /* Link color */
+      text-decoration: none; /* Remove underline */
+  }
+
+  .footer-links {
+    flex: 1;
+    color: black;
+  }
+
+  .footer-contact {
+    flex: 1;
+    color: black;
+  }
+
+  .footer-heading {
+    color: black;
+    margin-bottom: 10px; /* Add margin bottom to create space between heading and list items */
+  }
+
+  .extra-padding {
+    padding-bottom: 4px;
+
+  }
+
+  .footer-ul {
+    list-style: none;
+    padding: 0; /* Remove default padding */
+  }
+
+  .footer-ul .footer-li {
+    margin-bottom: 10px;
+    padding: 5px 0; /* Add padding to list items */
+  }
+
+  .footer-ul .footer-li .footer-a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .footer-ul .footer-li .footer-a:hover {
+    color: white;
+  }
+
+</style>
+
+<footer>
+    <div class="footer-brand">
+        <a class="footer-brand-link" href="{% url 'home' %}">theblog</a>
+        <!-- Insert brand-related content here -->
+    </div>
+    <div class="footer-links">
+        <h4 class="footer-heading">Useful Links</h4> <!-- Add class for styling -->
+        <ul class="footer-ul">
+            <li class="footer-li"><a class="footer-a" href="{% url 'home' %}">Home</a></li>
+            <li class="footer-li"><a class="footer-a" href="{% url 'add_post' %}">Write</a></li>
+            <!-- Add more useful links as needed -->
+        </ul>
+    </div>
+    <div class="footer-contact">
+        <h4 class="footer-heading extra-padding">Contact Us</h4> <!-- Add class for styling -->
+        <ul class="footer-ul">
+            <strong>Email:</strong> <br>
+            <li class="footer-li">manshigurung824@gmail.com</li> 
+            <strong>Phone:</strong> <br> 
+            <li class="footer-li">+977-9823000000</li>
+            <strong>Location:</strong> <br> 
+            <li class="footer-li">Boudha, Nepal</li>
+        </ul>
+    </div>
+</footer>

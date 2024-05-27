@@ -106,12 +106,24 @@ class SearchBlogsView(CatMenuMixin, View):
 		context = {'searched': searched, 'posts': posts, 'cat_menu': Category.objects.all()}
 		return render(request, self.template_name, context) 
 
-class HomeView(CatMenuMixin, ListView):
+'''class HomeView(CatMenuMixin, ListView):
 	model = Post
 	template_name = 'home.html'
 	cats = Category.objects.all()
 	#ordering = ['-id']
 	ordering = ['-post_date']
+
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_superuser:
+			return admin_approval(request)
+		else:
+			return super().dispatch(request, *args, **kwargs)
+'''
+class HomeView(CatMenuMixin, ListView):
+	model = Post
+	template_name = 'home.html'
+	ordering = ['-post_date']
+	paginate_by = 5  # Number of posts per page
 
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_superuser:
